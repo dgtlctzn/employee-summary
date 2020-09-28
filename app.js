@@ -34,22 +34,22 @@ const render = require("./lib/htmlRenderer");
 // for the provided `render` function to work! ```
 
 employeeQuestions = [
-    {
-      type: "input",
-      message: "What is the name of this employee?",
-      name: "name",
-    },
-    {
-      type: "input",
-      message: "What is the employee's id no.?",
-      name: "id",
-    },
-    {
-      type: "input",
-      message: "What is the employee's email address?",
-      name: "email",
-    },
-  ];
+  {
+    type: "input",
+    message: "What is the name of this employee?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is the employee's id no.?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is the employee's email address?",
+    name: "email",
+  },
+];
 
 managerQuestions = [
   {
@@ -60,22 +60,50 @@ managerQuestions = [
   ...employeeQuestions,
 ];
 
-roleQuestion = {
+roleQuestion = [
+  {
     type: "list",
     message: "What is the role of this employee?",
     choices: ["intern", "engineer"],
     name: "role",
+  },
+];
+
+continueQuestion = {
+    name: "continue",
+    type: "confirm",
+    message: "Would you like to add another employee?",
+}
+
+engineerQuestion = {
+    type: "input",
+    message: "What is the employee's Github username?",
+    name: "github",
+}
+
+internQuestion = {
+    type: "input",
+    message: "What school is the intern enrolled in?",
+    name: "school",
 }
 
 async function userQuestions() {
-    try {
-        const m = await inquirer(managerQuestions);
-        const manager = new Manager(m.name, m.id, m.email, m.office)
-        console.log(manager)
-    } catch (error) {
-        console.log(error)
+  try {
+    const m = await inquirer.prompt(managerQuestions);
+    const manager = new Manager(m.name, m.id, m.email, m.office);
+    const r = await inquirer.prompt(roleQuestion);
+    if (r.role === "intern") {
+        employeeQuestions.push(studentQuestion);
+        const i = await inquirer.prompt(employeeQuestions);
+
+    } else {
+        employeeQuestions.push(engineerQuestion);
+        const e = await inquirer.prompt(employeeQuestions);
     }
+    const cont = await inquirer.prompt(continueQuestion);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 userQuestions();
-
