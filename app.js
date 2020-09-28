@@ -58,6 +58,7 @@ managerQuestions = [
     name: "office",
   },
   ...employeeQuestions,
+  ...continueQuestion,
 ];
 
 roleQuestion = [
@@ -94,10 +95,12 @@ async function userQuestions() {
     const r = await inquirer.prompt(roleQuestion);
     if (r.role === "intern") {
         employeeQuestions.push(studentQuestion);
+        employeeQuestions.push(continueQuestion);
         const i = await inquirer.prompt(employeeQuestions);
 
     } else {
         employeeQuestions.push(engineerQuestion);
+        employeeQuestions.push(continueQuestion);
         const e = await inquirer.prompt(employeeQuestions);
     }
     const cont = await inquirer.prompt(continueQuestion);
