@@ -64,7 +64,6 @@ const managerQuestions = [
     name: "office",
   },
   ...employeeQuestions,
-  continueQuestion,
 ];
 
 const roleQuestion = [
@@ -90,23 +89,29 @@ const internQuestion = {
 
 async function userQuestions() {
   try {
-    const m = await inquirer.prompt(managerQuestions);
-    const manager = new Manager(m.name, m.id, m.email, m.office);
-    const r = await inquirer.prompt(roleQuestion);
-    if (r.role === "intern") {
-      employeeQuestions.push(internQuestion);
-      employeeQuestions.push(continueQuestion);
-      const i = await inquirer.prompt(employeeQuestions);
-      const intern = new Intern(i.name, i.id, i.email, i.school);
-      console.log(intern);
-    } else {
-      employeeQuestions.push(engineerQuestion);
-      employeeQuestions.push(continueQuestion);
-      const e = await inquirer.prompt(employeeQuestions);
-      const engineer = new Engineer(e.name, e.id, e.email, e.github);
-      console.log(engineer);
+    // let done = false;
+    let goOn = true;
+    while (goOn) {
+      const m = await inquirer.prompt(managerQuestions);
+      const manager = new Manager(m.name, m.id, m.email, m.office);
+      const r = await inquirer.prompt(roleQuestion);
+      if (r.role === "intern") {
+        employeeQuestions.push(internQuestion);
+        i = await inquirer.prompt(employeeQuestions);
+        const intern = new Intern(i.name, i.id, i.email, i.school);
+        const cont = await inquirer.prompt(continueQuestion);
+        goOne = cont.continue;
+      } else {
+        employeeQuestions.push(engineerQuestion);
+        e = await inquirer.prompt(employeeQuestions);
+        const engineer = new Engineer(e.name, e.id, e.email, e.github);
+        const cont = await inquirer.prompt(continueQuestion);
+        goOn = cont.continue;
+      }
+    //   if (!m.continue || !cont.continue) {
+        // done = true;
+    //   }
     }
-    const cont = await inquirer.prompt(continueQuestion);
   } catch (error) {
     console.log(error);
   }
