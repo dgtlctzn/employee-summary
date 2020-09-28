@@ -55,7 +55,7 @@ managerQuestions = [
   {
     type: "input",
     message: "What is the office number of the team manager?",
-    name: "name",
+    name: "office",
   },
   ...employeeQuestions,
 ];
@@ -66,4 +66,16 @@ roleQuestion = {
     choices: ["intern", "engineer"],
     name: "role",
 }
+
+async function userQuestions() {
+    try {
+        const m = await inquirer(managerQuestions);
+        const manager = new Manager(m.name, m.id, m.email, m.office)
+        console.log(manager)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+userQuestions();
 
