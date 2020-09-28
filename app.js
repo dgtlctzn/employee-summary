@@ -33,28 +33,37 @@ const render = require("./lib/htmlRenderer");
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
+employeeQuestions = [
+    {
+      type: "input",
+      message: "What is the name of this employee?",
+      name: "name",
+    },
+    {
+      type: "input",
+      message: "What is the employee's id no.?",
+      name: "id",
+    },
+    {
+      type: "input",
+      message: "What is the employee's email address?",
+      name: "email",
+    },
+  ];
+
 managerQuestions = [
   {
     type: "input",
-    message: "What is the name of the team manager?",
+    message: "What is the office number of the team manager?",
     name: "name",
   },
+  ...employeeQuestions,
 ];
 
-employeeQuestions = [
-  {
-    type: "input",
-    message: "What is the name of the employee?",
-    name: "name",
-  },
-  {
-    type: "input",
-    message: "What is the employee's id no.?",
-    name: "id",
-  },
-  {
-    type: "input",
-    message: "What is the employee's email address?",
-    name: "email",
-  },
-];
+roleQuestion = {
+    type: "list",
+    message: "What is the role of this employee?",
+    choices: ["intern", "engineer"],
+    name: "role",
+}
+
