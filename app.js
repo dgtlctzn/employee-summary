@@ -33,7 +33,7 @@ const render = require("./lib/htmlRenderer");
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-employeeQuestions = [
+const employeeQuestions = [
   {
     type: "input",
     message: "What is the name of this employee?",
@@ -51,17 +51,23 @@ employeeQuestions = [
   },
 ];
 
-managerQuestions = [
+const continueQuestion = {
+  name: "continue",
+  type: "confirm",
+  message: "Would you like to add another employee?",
+};
+
+const managerQuestions = [
   {
     type: "input",
     message: "What is the office number of the team manager?",
     name: "office",
   },
   ...employeeQuestions,
-  ...continueQuestion,
+  continueQuestion,
 ];
 
-roleQuestion = [
+const roleQuestion = [
   {
     type: "list",
     message: "What is the role of this employee?",
@@ -70,23 +76,17 @@ roleQuestion = [
   },
 ];
 
-continueQuestion = {
-    name: "continue",
-    type: "confirm",
-    message: "Would you like to add another employee?",
-}
+const engineerQuestion = {
+  type: "input",
+  message: "What is the employee's Github username?",
+  name: "github",
+};
 
-engineerQuestion = {
-    type: "input",
-    message: "What is the employee's Github username?",
-    name: "github",
-}
-
-internQuestion = {
-    type: "input",
-    message: "What school is the intern enrolled in?",
-    name: "school",
-}
+const internQuestion = {
+  type: "input",
+  message: "What school is the intern enrolled in?",
+  name: "school",
+};
 
 async function userQuestions() {
   try {
@@ -94,14 +94,17 @@ async function userQuestions() {
     const manager = new Manager(m.name, m.id, m.email, m.office);
     const r = await inquirer.prompt(roleQuestion);
     if (r.role === "intern") {
-        employeeQuestions.push(studentQuestion);
-        employeeQuestions.push(continueQuestion);
-        const i = await inquirer.prompt(employeeQuestions);
-
+      employeeQuestions.push(internQuestion);
+      employeeQuestions.push(continueQuestion);
+      const i = await inquirer.prompt(employeeQuestions);
+      const intern = new Intern(i.name, i.id, i.email, i.school);
+      console.log(intern);
     } else {
-        employeeQuestions.push(engineerQuestion);
-        employeeQuestions.push(continueQuestion);
-        const e = await inquirer.prompt(employeeQuestions);
+      employeeQuestions.push(engineerQuestion);
+      employeeQuestions.push(continueQuestion);
+      const e = await inquirer.prompt(employeeQuestions);
+      const engineer = new Engineer(e.name, e.id, e.email, e.github);
+      console.log(engineer);
     }
     const cont = await inquirer.prompt(continueQuestion);
   } catch (error) {
