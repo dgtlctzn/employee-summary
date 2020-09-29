@@ -41,11 +41,25 @@ const employeeQuestions = [
     type: "input",
     message: "What is the name of this employee?",
     name: "name",
+    validate: async input => {
+      const nameRe = /^[a-zA-Z_]+$/;
+      if (!input.match(nameRe)) {
+        return "please provide valid name";
+      }
+      return true;
+    }
   },
   {
     type: "input",
     message: "What is the employee's id no.?",
     name: "id",
+    validate: async input => {
+      const idRe = /^[0-9]+$/;
+      if (!input.match(idRe)) {
+        return "please provide a numerical value for id";
+      }
+      return true;
+    }
   },
   {
     type: "input",
