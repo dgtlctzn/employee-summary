@@ -51,6 +51,13 @@ const employeeQuestions = [
     type: "input",
     message: "What is the employee's email address?",
     name: "email",
+    validate: async input => {
+      const emailRe = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+      if (!input.match(emailRe)) {
+        return "please provide valid email";
+      }
+      return true;
+    }
   },
 ];
 
