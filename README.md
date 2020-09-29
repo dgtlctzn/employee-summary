@@ -13,7 +13,27 @@
   * [License](#license)
 
   ## Description
-  This project is a command line interface that takes a user's input of employee data and dynamically generates a webpage with that information. There are three types of employees available: manager, engineer, and intern, each with their own specific questions. Once a user fills out the manager's information, they can add as many engineers or interns to the team as they so desire. The command line application is built on the inquirer package and classes are instantiated for each employee to store the appropriate details. 
+  This project is a command line interface that takes a user's input of employee data and dynamically generates a webpage with that information. There are three types of employees available: manager, engineer, and intern, each with their own specific questions. Once a user fills out the manager's information, they can add as many engineers or interns to the team as they so desire. The command line application is built on the inquirer package and classes are instantiated for each employee to store the appropriate details. The employee base class stores data common to all employees and is extended by subclasses for each employee type. An abreviated sample class is as follows: 
+  ```
+class Employee {
+
+    constructor(name, id, email) {
+      this.name = name;
+      this.id = id;
+      this.email = email;
+    }
+    ...
+}
+
+class Engineer extends Employee {
+
+    constructor(name, id, email, github) {
+      super(name, id, email)
+      this.github = github;
+    }
+    ...
+}
+  ```
   ## Installation
   A package.json file is included with all of the necesssary installs to have this package functioning. The essential dependency is the inquirer package which enables the command line interface.
   ## Usage
