@@ -115,7 +115,7 @@ async function userQuestions() {
     }
   const html = render(employeeList);
   await asyncWrite(outputPath, html);
-  console.log("<==== html file written successfully ====>")
+  console.log("\x1b[36m", "<==== html file written successfully ====>")
   } catch (error) {
     console.log(error);
   }
