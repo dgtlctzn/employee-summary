@@ -57,23 +57,18 @@ const continueQuestion = {
   message: "Would you like to add another employee?",
 };
 
-const managerQuestions = [
-  {
-    type: "input",
-    message: "What is the office number of the team manager?",
-    name: "office",
-  },
-  ...employeeQuestions,
-];
+const managerQuestion = {
+  type: "input",
+  message: "What is the office number of the team manager?",
+  name: "office",
+};
 
-const roleQuestion = [
-  {
-    type: "list",
-    message: "What is the role of this employee?",
-    choices: ["intern", "engineer"],
-    name: "role",
-  },
-];
+const roleQuestion = {
+  type: "list",
+  message: "What is the role of this employee?",
+  choices: ["intern", "engineer"],
+  name: "role",
+};
 
 const engineerQuestion = {
   type: "input",
@@ -89,28 +84,32 @@ const internQuestion = {
 
 async function userQuestions() {
   try {
-    // let done = false;
     let goOn = true;
+    const m = await inquirer.prompt([managerQuestion, ...employeeQuestions, continueQuestion]);
+    const manager = new Manager(m.name, m.id, m.email, m.office);
+    goOn = m.continue;
+    if (!goOn) {
+      return;
+    }
     while (goOn) {
-      const m = await inquirer.prompt(managerQuestions);
-      const manager = new Manager(m.name, m.id, m.email, m.office);
-      const r = await inquirer.prompt(roleQuestion);
+      const r = await inquirer.prompt([roleQuestion]);
       if (r.role === "intern") {
-        employeeQuestions.push(internQuestion);
-        i = await inquirer.prompt(employeeQuestions);
+        const i = await inquirer.prompt([
+          ...employeeQuestions,
+          internQuestion,
+          continueQuestion,
+        ]);
         const intern = new Intern(i.name, i.id, i.email, i.school);
-        const cont = await inquirer.prompt(continueQuestion);
-        goOne = cont.continue;
+        goOn = i.continue;
       } else {
-        employeeQuestions.push(engineerQuestion);
-        e = await inquirer.prompt(employeeQuestions);
+        const e = await inquirer.prompt([
+          ...employeeQuestions,
+          engineerQuestion,
+          continueQuestion,
+        ]);
         const engineer = new Engineer(e.name, e.id, e.email, e.github);
-        const cont = await inquirer.prompt(continueQuestion);
-        goOn = cont.continue;
+        goOn = e.continue;
       }
-    //   if (!m.continue || !cont.continue) {
-        // done = true;
-    //   }
     }
   } catch (error) {
     console.log(error);
