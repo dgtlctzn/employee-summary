@@ -1,4 +1,21 @@
+/* body {
+    background-image: URL(pexels-pixabay-373076.jpg);
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+} */
+
 .team-heading {
     background-color: crimson;
+    color: white;
 }
 
+.card-header {
+    background-color: royalblue;
+    color: white;
+}
+
+.employee-card {
+    margin: 20px;
+    box-shadow: 5px 5px 5px 5px #a9a1a1;
+}
