@@ -4,11 +4,14 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const util = require("util");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+
+const asyncWrite = util.promisify(fs.writeFile);
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -84,9 +87,11 @@ const internQuestion = {
 
 async function userQuestions() {
   try {
+    const employeeList = [];
     let goOn = true;
     const m = await inquirer.prompt([managerQuestion, ...employeeQuestions, continueQuestion]);
     const manager = new Manager(m.name, m.id, m.email, m.office);
+    employeeList.push(manager);
     goOn = m.continue;
     if (!goOn) {
       return;
@@ -100,6 +105,7 @@ async function userQuestions() {
           continueQuestion,
         ]);
         const intern = new Intern(i.name, i.id, i.email, i.school);
+        employeeList.push(intern);
         goOn = i.continue;
       } else {
         const e = await inquirer.prompt([
@@ -108,9 +114,12 @@ async function userQuestions() {
           continueQuestion,
         ]);
         const engineer = new Engineer(e.name, e.id, e.email, e.github);
+        employeeList.push(engineer);
         goOn = e.continue;
       }
     }
+  const html = render(employeeList);
+  await asyncWrite(outputPath, html);
   } catch (error) {
     console.log(error);
   }
