@@ -93,9 +93,6 @@ async function userQuestions() {
     const manager = new Manager(m.name, m.id, m.email, m.office);
     employeeList.push(manager);
     goOn = m.continue;
-    if (!goOn) {
-      return;
-    }
     while (goOn) {
       const r = await inquirer.prompt([roleQuestion]);
       if (r.role === "intern") {
