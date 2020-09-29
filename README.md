@@ -39,7 +39,7 @@ class Engineer extends Employee {
   ## Usage
   The following link is a walkthrough of the applications functionality:
   
-  [screencastify](screencastifylink.com)
+  [Screencastify Walkthrough](https://drive.google.com/file/d/1msv5JuUuk3y1Nxt2d4-CBpzCgOprQnSW/view)
   ## Contributing
   Special thanks to the Inquirer package for the CLI and GA Tech Bootcamp for the necessary tools and information.
   ## Tests
