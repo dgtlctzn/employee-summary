@@ -19,7 +19,7 @@ const employeeQuestions = [
     message: "What is the name of this employee?",
     name: "name",
     validate: async input => {
-      const nameRe = /^[a-zA-Z_]+$/;
+      const nameRe = /^[a-zA-Z _]+$/;
       if (!input.match(nameRe)) {
         return "please provide valid name";
       }
